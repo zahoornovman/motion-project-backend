@@ -38,7 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #own apps
+    'django_user',
+    'registration',
+    'user',
+    'things_user_like',
+    'post',
+    'comment',
+    'friend_request',
 ]
+
+AUTH_USER_MODEL = 'django_user.Django_User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
