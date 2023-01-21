@@ -43,8 +43,17 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # own
+    'comment',
+    'django_user',
+    'friend_request',
+    'post',
+    'registration',
+    'things_user_like',
+    'user',
 
 ]
+
+AUTH_USER_MODEL = 'django_user.DjangoUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

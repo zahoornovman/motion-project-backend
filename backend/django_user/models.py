@@ -3,10 +3,9 @@ from django.db import models
 
 
 # Create your models here.
-
-class Django_User(AbstractUser):
+class DjangoUser(AbstractUser):
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ['username']
     email = models.EmailField(unique=True)
 
     def str(self):
