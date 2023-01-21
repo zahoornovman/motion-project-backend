@@ -24,5 +24,5 @@ urlpatterns = [
     path('backend/api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('backend/api/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     path('backend/api/users/', include('user_profile.urls')),
-
+    path('backend/api/social/posts/', include('post.urls')),
 ]
