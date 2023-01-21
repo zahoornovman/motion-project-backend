@@ -17,4 +17,5 @@ dependencies:
     - gunicorn==20.1.0                      # Python production ready web server
     - dj-database-url==1.2.0                # Used to connect to Postgres via Heroku URL
     - django-cors-headers==3.13.0           # Used to allow browser connection between frontend and backend
+    - django-filter==22.1                    # Used to search for Posts
 
