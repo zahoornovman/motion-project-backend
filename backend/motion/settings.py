@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'post',
     'registration',
     'things_user_like',
-    'user',
+    'user_profile'
 
 ]
 
