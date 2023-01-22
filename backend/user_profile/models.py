@@ -1,6 +1,6 @@
 from django.db import models
 from django_user.models import DjangoUser
-from things_user_like.models import Things_User_Like
+from things_user_like.models import ThingsUserLike
 
 
 # from friend_request.models import Friend_Request
@@ -17,7 +17,7 @@ class Profile(models.Model):
     background_img = models.ImageField(blank=True, null=True)
     location = models.CharField(blank=True, max_length=30)
     about_me = models.CharField(blank=True, max_length=300)
-    things_user_like = models.ManyToManyField(blank=True, to=Things_User_Like, related_name='liked_by_user')
+    things_user_like = models.ManyToManyField(blank=True, to=ThingsUserLike, related_name='liked_by_user')
 
     user_is_following = models.ManyToManyField('self', related_name='user_is_followed_by', blank=True,
                                                symmetrical=False)

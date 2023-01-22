@@ -3,8 +3,6 @@ from post.models import Post
 from user_profile.models import Profile
 
 
-
-
 # Create your models here.
 class Comment(models.Model):
     content = models.CharField(max_length=200)
