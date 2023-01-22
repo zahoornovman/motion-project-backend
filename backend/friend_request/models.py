@@ -4,7 +4,7 @@ from user_profile.models import Profile
 
 # Create your models here.
 
-class Friend_Request(models.Model):
+class FriendRequest(models.Model):
     class Status(models.IntegerChoices):
         ACCEPTED = 1
         REJECTED = 2
