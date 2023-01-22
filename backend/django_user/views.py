@@ -12,7 +12,7 @@ DjangoUser = get_user_model()
 # Create your views here.
 
 
-class PasswordResetView(ListCreateAPIView):
+class PasswordResetView(GenericAPIView):
     queryset = DjangoUser.objects.all
     serializer_class = PasswordResetSerializer
 
@@ -21,10 +21,11 @@ class PasswordResetView(ListCreateAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.save()
+
         email = serializer.validated_data["email"]
         try:
             user = DjangoUser.objects.get(email=email)
-
             return Response(status=status.HTTP_200_OK)
         except DjangoUser.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -36,3 +37,4 @@ class PasswordResetValidateView(GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         pass
+

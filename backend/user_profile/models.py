@@ -1,9 +1,8 @@
 from django.db import models
-from django_user.models import DjangoUser
 from things_user_like.models import ThingsUserLike
+from django.contrib.auth import get_user_model
 
-
-# from friend_request.models import Friend_Request
+DjangoUser = get_user_model()
 
 
 # Create your models here.
