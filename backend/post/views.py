@@ -7,8 +7,6 @@ from post.serializers import PostSerializer
 from user_profile.models import Profile
 
 
-# Create your views here.
-
 class ListCreatePostView(ListCreateAPIView):
     queryset = Post.objects.all().order_by('-created_time')
     serializer_class = PostSerializer
@@ -38,7 +36,7 @@ class ListFriendPostView(ListAPIView):
         return self.queryset.filter(author__in=friends)
 
 
-class ListFollowingPostView(ListAPIView):
+class ListFollowedUserPostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticated,)
@@ -53,12 +51,11 @@ class ListFollowingPostView(ListAPIView):
 class ListLikePostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
-        user = self.request.user
-        return Post.objects.filter(likes__user=user)
-
+        user_id = self.kwargs['user_id']
+        return self.queryset.filter(author__id=user_id).order_by('-created_time')
+    # Line for Posts Liked is missing
 
 class ToggleUpdateLikePostView(UpdateAPIView):
     queryset = Post.objects.all()

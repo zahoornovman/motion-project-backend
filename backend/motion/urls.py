@@ -26,4 +26,5 @@ urlpatterns = [
     path('backend/api/auth/password-reset/', include('django_user.urls')),
     path('backend/api/users/', include('user_profile.urls')),
     path('backend/api/social/posts/', include('post.urls')),
+    path('backend/api/social/comments/', include('comment.urls')),
 ]
