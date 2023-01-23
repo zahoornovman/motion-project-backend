@@ -1,11 +1,11 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
-
-# Create your models here.
-
+User = get_user_model()
 class Post(models.Model):
     content = models.CharField(max_length=500)
-    external_link = models.URLField
+    author = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    external_link = models.URLField(null=True, blank=True)
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     # Images field needs to be updated
@@ -14,4 +14,4 @@ class Post(models.Model):
                                       null=True)
 
     def __str__(self):
-        return f'Post: {self.pk} - {self.content}'
+        return f'Post: {self.pk} ({self.author}) - {self.content}'
