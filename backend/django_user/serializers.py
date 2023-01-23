@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from registration.serializers import RegistrationSerializer
 
 DjangoUser = get_user_model()
 
 
-class PasswordResetSerializer(serializers.ModelSerializer):
+class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    password = serializers.CharField(write_only=True)
+    #password = serializers.CharField()
 
     # info = serializers.SerializerMethodField()
     #
@@ -21,9 +22,9 @@ class PasswordResetSerializer(serializers.ModelSerializer):
 
 
 class DjangoUserSerializer(serializers.ModelSerializer):
+    registration = RegistrationSerializer(many=True, read_only=True)
+
     class Meta:
         model = DjangoUser
-        fields = ['email']
-
-    # email = serializers.EmailField()
-    # password = serializers.CharField(write_only=True)
+        fields = ['password', 'registration']
+        read_only_fields = ['email']
