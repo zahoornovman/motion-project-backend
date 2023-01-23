@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
@@ -31,6 +32,13 @@ class PasswordResetView(GenericAPIView):
             registration.save()
 
             # Write logic to send email with code here
+            send_mail(
+                'Password Reset',
+                f'Please find below your code for password reset: {new_code} ',
+                'group01motion.backend@gmail.com',
+                [email],
+                fail_silently=False,
+            )
 
             return Response({'detail': 'Email sent with code'}, status=status.HTTP_200_OK)
         except DjangoUser.DoesNotExist:
