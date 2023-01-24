@@ -11,6 +11,6 @@ class FriendRequest(models.Model):
         PENDING = 0
 
     status = models.IntegerField(choices=Status.choices)
-    sent_request = models.OneToOneField(to=Profile, on_delete=models.CASCADE, related_name='requestor')
-    received_request = models.OneToOneField(to=Profile, on_delete=models.CASCADE, related_name='receiver')
+    request_from = models.OneToOneField(to=Profile, on_delete=models.CASCADE, related_name='requestor')
+    received_by = models.OneToOneField(to=Profile, on_delete=models.CASCADE, related_name='receiver')
     # requestor = models.ForeignKey(to=Profile, on_delete=models.CASCADE, related_name='sent_request')
