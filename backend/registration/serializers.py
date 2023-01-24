@@ -8,3 +8,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = Registration
         fields = '__all__'
 
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
