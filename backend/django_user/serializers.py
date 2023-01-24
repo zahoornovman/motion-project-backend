@@ -7,7 +7,7 @@ DjangoUser = get_user_model()
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    #password = serializers.CharField()
+    # password = serializers.CharField()
 
     # info = serializers.SerializerMethodField()
     #
@@ -26,5 +26,6 @@ class DjangoUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DjangoUser
-        fields = ['password', 'registration']
+        fields = ['id', 'password', 'registration', 'username', 'first_name', 'last_name']
         read_only_fields = ['email']
+
