@@ -24,6 +24,7 @@ urlpatterns = [
     path('backend/api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view(), name='token_refresh'),
     path('backend/api/auth/password-reset/', include('django_user.urls')),
+    path('backend/api/auth/registration/', include('registration.urls')),
     path('backend/api/users/', include('user_profile.urls')),
     path('backend/api/social/posts/', include('post.urls')),
     path('backend/api/social/comments/', include('comment.urls')),
