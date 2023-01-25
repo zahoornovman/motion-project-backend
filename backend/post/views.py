@@ -1,5 +1,5 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
-from rest_framework import filters, permissions
+from rest_framework import filters, permissions, status
 from rest_framework.response import Response
 
 from post.models import Post
@@ -51,26 +51,33 @@ class ListFollowedUserPostView(ListAPIView):
 class ListLikePostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
+
         return self.queryset.filter(author__id=user_id).order_by('-created_time')
     # Line for Posts Liked is missing
+
+
 
 class ToggleUpdateLikePostView(UpdateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
     def post(self, request, *args, **kwargs):
-        post = self.get_object()
-        user = request.user
-        if user in post.liked_by.all():
-            post.liked_by.remove(user)
+
+        post_id = kwargs['post_id']
+        post = Post.objects.get(id=post_id)
+        user_profile = Profile.objects.get(custom_django_user=request.user)
+
+        if user_profile in post.liked_by_user.all():
+            post.liked_by_user.remove(user_profile)
         else:
-            post.liked_by.add(user)
+            post.liked_by_user.add(user_profile)
         post.save()
-        serializer = self.get_serializer(post)
-        return Response(serializer.data)
+        # serializer = self.get_serializer(post)
+        return Response(status=status.HTTP_200_OK)
 
 
 class IsAuthor(permissions.BasePermission):
