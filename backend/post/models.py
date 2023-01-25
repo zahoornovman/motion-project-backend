@@ -14,7 +14,7 @@ class Post(models.Model):
     images = models.ImageField(upload_to='', blank=True, null=True)
     reposted_post = models.ForeignKey('self', on_delete=models.CASCADE, related_name='reposted_in', blank=True,
                                       null=True)
-    liked_by_user = models.ForeignKey(to=Profile, on_delete=models.CASCADE, blank=True, null=True)
+    liked_by_user = models.ManyToManyField(to=Profile, blank=True) # on_delete=models.CASCADE, null=True
 
     def __str__(self):
         return f'Post: {self.pk} ({self.author}) - {self.content}'
