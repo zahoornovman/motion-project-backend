@@ -40,6 +40,7 @@ CORS_ALLOWED_ORIGINS = ['https://group01-motion-backend.herokuapp.com']
 if SERVER_TYPE != 'production':
     CORS_ALLOWED_ORIGINS += ['http://localhost:3000']
 
+
 # Application definition
 
 INSTALLED_APPS = [

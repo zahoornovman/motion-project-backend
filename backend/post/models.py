@@ -12,9 +12,8 @@ class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     images = models.ImageField(upload_to='', blank=True, null=True)
-    reposted_post = models.ForeignKey('self', on_delete=models.CASCADE, related_name='reposted_in', blank=True,
-                                      null=True)
-    liked_by_user = models.ManyToManyField(to=Profile, blank=True) # on_delete=models.CASCADE, null=True
+    reposted_post = models.ManyToManyField('self', related_name='reposted_in', blank=True,symmetrical=False)
+    liked_by_user = models.ManyToManyField(to=Profile, blank=True)
 
     def __str__(self):
         return f'Post: {self.pk} ({self.author}) - {self.content}'
