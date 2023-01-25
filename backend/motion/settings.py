@@ -13,6 +13,8 @@ from datetime import timedelta
 from pathlib import Path
 import os
 
+import dj_database_url
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-393)nf$&+dfl_8y60n-ge+&_&h4tnk1u^9qcje&-y!y-5gca_w'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+# 'django-insecure-393)nf$&+dfl_8y60n-ge+&_&h4tnk1u^9qcje&-y!y-5gca_w'
+
+SERVER_TYPE = os.environ.get('SERVER_TYPE', 'development')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['group01-motion-backend.herokuapp.com']
+
+if SERVER_TYPE != 'production':
+    ALLOWED_HOSTS += ['127.0.0.1']
+
+CORS_ALLOWED_ORIGINS = ['https://group01-motion-backend.herokuapp.com']
+
+if SERVER_TYPE != 'production':
+    CORS_ALLOWED_ORIGINS += ['http://localhost:3000']
 
 # Application definition
 
@@ -100,6 +113,9 @@ DATABASES = {
     }
 }
 
+if SERVER_TYPE == 'production':
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
+
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -133,6 +149,20 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+if SERVER_TYPE == 'production':
+    # production settings
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  # AWS SDK
+    AWS_ACCESS_KEY_ID = os.environ.get('DO_SPACES_ACCESS_KEY')  # Spaces access key
+    AWS_SECRET_ACCESS_KEY = os.environ.get('DO_SPACES_SECRET')  # Spaces access secret
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('DO_SPACES_SPACE_NAME')  # Name of the space
+    AWS_S3_ENDPOINT_URL = os.environ.get('DO_SPACES_ENDPOINT')  # Endpoint found under Spaces/<your-space>/Settings
+    MEDIA_URL = 'https://group01-motion-backend.fra1.digitaloceanspaces.com/media/'  # Full url displayed in Spaces
+
+else:
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -160,3 +190,14 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,  # Change settings to True to enable Django Login option
+    'SECURITY_DEFINITIONS': {  # Allows usage of Access token to make requests on the docs.
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    }
+}
