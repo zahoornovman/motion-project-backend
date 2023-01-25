@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django_user.models import DjangoUser
 from registration.models import code_generator, Registration
 from registration.serializers import RegistrationSerializer
+from user_profile.models import Profile
 
 DjangoUser = get_user_model()
 
@@ -46,23 +47,28 @@ class NewRegistrationValidationView(GenericAPIView):
     permission_classes = []
 
     def post(self, request):
+        # collecting data from request
         validation_code = int(request.data['code'])
         email = request.data['email']  # serializer.data['email']
-        print(request.data)
+        # finding related object in Registration
         new_registration_user = Registration.objects.get(email=email)
 
+        # comparing validation code to stored code
         if validation_code == new_registration_user.code:
             password = request.data.get('password')
             username = request.data.get('username')
             first_name = request.data.get('first_name')
             last_name = request.data.get('last_name')
+            # creating and saving new custom user
             new_django_user = DjangoUser.objects.create_user(username=username, email=email,
                                                              first_name=first_name, last_name=last_name)
             new_django_user.set_password(password)
             new_django_user.save()
-            print(new_registration_user.id)
-
+            # updating registration object with custom user
             Registration.objects.filter(pk=new_registration_user.id).update(user=new_django_user)
+            # creating and saving new profile
+            new_user_profile = Profile.objects.create(custom_django_user=new_django_user)
+            new_user_profile.save()
             return Response({'detail': 'New User created. Please login'})
         else:
             return Response({'error': 'Invalid validation code'}, status=status.HTTP_400_BAD_REQUEST)
