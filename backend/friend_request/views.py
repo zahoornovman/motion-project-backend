@@ -4,13 +4,9 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from friend_request.models import FriendRequest
 from user_profile.models import Profile
-from django_user.models import DjangoUser
 from friend_request.serializers import FriendRequestSerializer
 from django.db import DatabaseError
-from django.contrib.auth import get_user_model
-
-
-# User = get_user_model()
+from friend_request.permissions import IsReceiver
 
 
 class SendFriendRequest(ListCreateAPIView):
@@ -27,11 +23,10 @@ class SendFriendRequest(ListCreateAPIView):
             return Response(data='The id does not exist', status=status.HTTP_404_NOT_FOUND)
 
         try:
-            # print(self.request.user.id)
             requestor = Profile.objects.filter(custom_django_user=self.request.user).first()
             if FriendRequest.objects.filter(received_by=requestee,
                                             request_from=requestor).exists() or FriendRequest.objects.filter(
-                    request_from=requestee, received_by=requestor).exists():
+                request_from=requestee, received_by=requestor).exists():
                 return Response(data='Friend already exists!', status=status.HTTP_200_OK)
             else:
                 friend_request = FriendRequest.objects.create(received_by=requestee, request_from=requestor,
@@ -45,4 +40,5 @@ class SendFriendRequest(ListCreateAPIView):
 class FriendRequestAcceptRejectDeleteList(RetrieveUpdateDestroyAPIView):
     queryset = FriendRequest.objects.all()
     serializer_class = FriendRequestSerializer
+    permission_classes = [IsReceiver]
     lookup_field = "id"
