@@ -29,12 +29,12 @@ SERVER_TYPE = os.environ.get('SERVER_TYPE', 'development')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['motion-backend-group01.herokuapp.com']
+ALLOWED_HOSTS = ['motion-backend-group01-prod.herokuapp.com']
 
 if SERVER_TYPE != 'production':
     ALLOWED_HOSTS += ['127.0.0.1']
 
-CORS_ALLOWED_ORIGINS = ['https://motion-backend-group01.herokuapp.com']
+CORS_ALLOWED_ORIGINS = ['https://motion-backend-group01-prod.herokuapp.com']
 
 if SERVER_TYPE != 'production':
     CORS_ALLOWED_ORIGINS += ['http://localhost:3000']
