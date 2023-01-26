@@ -1,10 +1,10 @@
 from user_profile.models import Profile
 from rest_framework import serializers
-from django_user.serializers import DjangoUserSerializer
+from django_user.serializers import DjangoUserProfileSerializer
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    custom_django_user = DjangoUserSerializer(read_only=True)
+    custom_django_user = DjangoUserProfileSerializer(read_only=True)
 
     class Meta:
         model = Profile

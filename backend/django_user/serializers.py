@@ -26,6 +26,11 @@ class DjangoUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DjangoUser
-        fields = ['id', 'password', 'registration', 'username', 'first_name', 'last_name']
+        fields = ['id', 'password', 'registration']
         read_only_fields = ['email']
 
+
+class DjangoUserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DjangoUser
+        fields = ['id', 'first_name', 'last_name', 'email']
