@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from rest_framework.response import Response
 
 from user_profile.models import Profile
-from user_profile.serializers import ProfileSerializer, UserFollowedBySerializer, UserIsFollowingSerializer
+from user_profile.serializers import ProfileSerializer
 from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView, GenericAPIView, \
     get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -71,7 +71,7 @@ class ToggleFollower(GenericAPIView):
 
 class ListFollowedUsers(ListAPIView):
     queryset = Profile.objects.all()
-    serializer_class = UserFollowedBySerializer
+    serializer_class = ProfileSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
@@ -84,8 +84,8 @@ class ListFollowedUsers(ListAPIView):
 
 
 class ListFollowers(ListAPIView):
-    queryset = Profile.objects.all()
-    serializer_class = UserIsFollowingSerializer
+    queryset = Profile.objects.values_list('id', 'user_is_following')
+    serializer_class = ProfileSerializer
 
     def get_object(self):
         queryset = self.get_queryset()
