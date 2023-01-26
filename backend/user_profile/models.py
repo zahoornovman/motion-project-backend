@@ -4,8 +4,10 @@ from django.contrib.auth import get_user_model
 
 DjangoUser = get_user_model()
 
+
 def user_directory_path(instance, filename):
-    return f'{instance.user.id}/{filename}'
+    return f'{instance.custom_django_user.id}/{filename}'
+
 
 # Create your models here.
 
@@ -15,8 +17,8 @@ class Profile(models.Model):
     job = models.CharField(blank=True, max_length=30)
     avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     background_img = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
-    avatar = models.ImageField(blank=True, null=True)
-    background_img = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    background_img = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     location = models.CharField(blank=True, max_length=30)
     about_me = models.CharField(blank=True, max_length=300)
     # things_user_like = models.ManyToManyField(blank=True, to=ThingsUserLike, related_name='liked_by_user')
@@ -24,5 +26,3 @@ class Profile(models.Model):
     user_is_following = models.ManyToManyField('self', related_name='user_is_followed_by', blank=True,
                                                symmetrical=False)
     friends = models.ManyToManyField('self', blank=True)
-
-

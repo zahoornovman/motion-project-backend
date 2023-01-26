@@ -4,8 +4,9 @@ from user_profile.models import Profile
 
 User = get_user_model()
 
+
 def post_directory_path(instance, filename):
-    return f'{instance.post.id}/{filename}'
+    return f'{instance.author.id}/{filename}'
 
 
 class Post(models.Model):
@@ -15,7 +16,7 @@ class Post(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)
     images = models.ImageField(upload_to=post_directory_path, blank=True, null=True)
-    reposted_post = models.ManyToManyField('self', related_name='reposted_in', blank=True,symmetrical=False)
+    reposted_post = models.ManyToManyField('self', related_name='reposted_in', blank=True, symmetrical=False)
     liked_by_user = models.ManyToManyField(to=Profile, blank=True)
 
     def __str__(self):
