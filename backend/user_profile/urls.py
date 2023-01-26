@@ -1,6 +1,6 @@
 from django.urls import path, include
 from user_profile.views import RetrieveUpdateDeleteUserView, ListAllUsersView, GetSpecificUserView, ToggleFollower, \
-    ListFollowedUsers
+    ListFollowedUsers, ListFollowers
 
 urlpatterns = [
     path('', ListAllUsersView.as_view()),
@@ -9,5 +9,5 @@ urlpatterns = [
     path('me/<int:pk>/', RetrieveUpdateDeleteUserView.as_view()),
     path('toggle-follow/<int:id>/', ToggleFollower.as_view()),
     path('following/', ListFollowedUsers.as_view()),
-    path('followers/', ListFollowedUsers.as_view()),
+    path('followers/', ListFollowers.as_view()),
 ]
