@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 
 DjangoUser = get_user_model()
 
+def user_directory_path(instance, filename):
+    return f'{instance.user.id}/{filename}'
 
 # Create your models here.
 
@@ -11,7 +13,8 @@ class Profile(models.Model):
     custom_django_user = models.OneToOneField(to=DjangoUser, on_delete=models.CASCADE,
                                               related_name='user_profile')
     job = models.CharField(blank=True, max_length=30)
-    # Avatar and Background image fields need to be updated.
+    avatar = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+    background_img = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     avatar = models.ImageField(blank=True, null=True)
     background_img = models.ImageField(blank=True, null=True)
     location = models.CharField(blank=True, max_length=30)
