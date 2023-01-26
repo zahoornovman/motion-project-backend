@@ -9,7 +9,9 @@
 __pycache__/
 local_settings.py
 db.sqlite3
-media
+media/
+static/
+envs/
 # **/migrations/*
 # !**/migrations/__init__.py
 ### Linux ###
@@ -195,6 +197,8 @@ celerybeat-schedule
 *.sage.py
 
 # dotenv
+*.env
+
 
 
 
@@ -227,6 +231,7 @@ celerybeat-schedule
 .env.development.local
 .env.test.local
 .env.production.local
+*.env
 
 npm-debug.log*
 yarn-debug.log*

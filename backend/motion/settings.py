@@ -23,7 +23,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
-# 'django-insecure-393)nf$&+dfl_8y60n-ge+&_&h4tnk1u^9qcje&-y!y-5gca_w'
 
 SERVER_TYPE = os.environ.get('SERVER_TYPE', 'development')
 
@@ -149,10 +148,11 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
+# https://docs.djangoprojegit statisct.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+print('Basic dir', BASE_DIR)
 
 if SERVER_TYPE == 'production':
     # production settings
@@ -204,3 +204,4 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+

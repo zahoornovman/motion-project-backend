@@ -1,5 +1,6 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
 from rest_framework import filters, permissions, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from post.models import Post
@@ -51,12 +52,16 @@ class ListFollowedUserPostView(ListAPIView):
 class ListLikePostView(ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user_id = self.kwargs['user_id']
-
-        return self.queryset.filter(author__id=user_id).order_by('-created_time')
+        # user_id = self.kwargs['user_id']
+        related_profile = Profile.objects.get(custom_django_user=self.request.user)
+        liked_posts = Post.objects.get(liked_by_user=related_profile)
+        print(liked_posts)
+        serializer = self.get_serializer(liked_posts, many=True)
+        return serializer.data
+        # return self.queryset.filter(author__id=user_id).order_by('-created_time')
     # Line for Posts Liked is missing
 
 
