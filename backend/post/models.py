@@ -4,8 +4,9 @@ from user_profile.models import Profile
 
 User = get_user_model()
 
+
 def post_directory_path(instance, filename):
-    return f'{instance.post.id}/{filename}'
+    return f'{instance.author.id}/{filename}'
 
 
 class Post(models.Model):
