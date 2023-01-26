@@ -49,7 +49,9 @@ class NewRegistrationValidationView(GenericAPIView):
     def post(self, request):
         # collecting data from request
         validation_code = int(request.data['code'])
+        print(validation_code)
         email = request.data['email']  # serializer.data['email']
+        print(email)
         # finding related object in Registration
         new_registration_user = Registration.objects.get(email=email)
 
